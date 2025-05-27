@@ -1,10 +1,10 @@
-package filtro;
+package org.lesly.ManejoDeSesiones.filtro;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletResponse;
-import services.ServiceJdbcException;
-import util.Conexion;
+import org.lesly.ManejoDeSesiones.services.ServiceJdbcException;
+import org.lesly.ManejoDeSesiones.util.Conexion;
 
 import java.io.IOException;
 import java.sql.Connection;

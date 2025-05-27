@@ -5,16 +5,16 @@
  * Descripcion: Desarrollo de clase productos de servlet para poder mostrar los productos mediante una tabla
  * */
 // Paquete donde se encuentra esta clase (organización del proyecto)
-package controllers;
+package org.lesly.ManejoDeSesiones.controllers;
 
 // Importaciones necesarias
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import services.LoginService;
-import services.LoginServiceSessionImplement;
-import services.ProductoService;
-import services.ProductosServiceImplement;
+import org.lesly.ManejoDeSesiones.services.LoginService;
+import org.lesly.ManejoDeSesiones.services.LoginServiceSessionImplement;
+import org.lesly.ManejoDeSesiones.services.ProductoService;
+import org.lesly.ManejoDeSesiones.services.ProductosServiceImplement;
 
 import java.io.IOException;
 import java.io.PrintWriter;

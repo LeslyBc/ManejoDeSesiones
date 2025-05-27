@@ -1,11 +1,11 @@
-package filtro;
+package org.lesly.ManejoDeSesiones.filtro;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import services.LoginService;
-import services.LoginServiceSessionImplement;
+import org.lesly.ManejoDeSesiones.services.LoginService;
+import org.lesly.ManejoDeSesiones.services.LoginServiceSessionImplement;
 
 import java.io.IOException;
 import java.util.Optional;

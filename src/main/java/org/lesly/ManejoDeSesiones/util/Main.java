@@ -1,4 +1,4 @@
-package util;
+package org.lesly.ManejoDeSesiones.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

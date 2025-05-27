@@ -1,4 +1,4 @@
-package models;
+package org.lesly.ManejoDeSesiones.models;
 
 // Clase que representa un producto con sus atributos básicos
 public class Productos {

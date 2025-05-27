@@ -1,6 +1,6 @@
-package services;
+package org.lesly.ManejoDeSesiones.services;
 
-import models.Productos;
+import org.lesly.ManejoDeSesiones.models.Productos;
 import java.util.List;
 
 public interface ProductoService {
