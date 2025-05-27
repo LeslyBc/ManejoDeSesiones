@@ -5,7 +5,7 @@ import models.Productos;
 import java.util.Arrays;
 import java.util.List;
 // Implementación de la interfaz ProductoService
-public class ProductoServiceImplement implements ProductoService {
+public class ProductosServiceImplement implements ProductoService {
 
     @Override
     public List<Productos> listar() {
