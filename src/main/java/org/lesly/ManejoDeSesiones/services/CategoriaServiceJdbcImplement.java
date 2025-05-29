@@ -10,28 +10,37 @@ import java.util.Optional;
 
 public class CategoriaServiceJdbcImplement implements CategoriaService {
 
-    //Creamos una variable de tipo CategoriaRepositoryJdbcImplmet
-    //creamos una variable de tipo COnnection
     private CategoriaRepositoryJdbcImplement repositoryJdbc;
+
     public CategoriaServiceJdbcImplement(Connection conn){
         this.repositoryJdbc = new CategoriaRepositoryJdbcImplement(conn);
     }
 
     @Override
     public List<Categoria> listar() {
-        try{
+        try {
             return repositoryJdbc.listar();
-        }catch(SQLException throwables){
-            throw  new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
+        } catch(SQLException throwables) {
+            throw new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
         }
     }
 
     @Override
     public Optional<Categoria> porId(Long id) {
-        try{
+        try {
             return Optional.ofNullable(repositoryJdbc.porId(id));
-        }catch(SQLException throwables){
-            throw  new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
+        } catch(SQLException throwables) {
+            throw new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
         }
+    }
+
+    @Override
+    public void guardar(Categoria categoria) throws SQLException {
+        repositoryJdbc.guardar(categoria);
+    }
+
+    @Override
+    public void eliminar(Long id) throws SQLException {
+        repositoryJdbc.eliminar(id);
     }
 }

@@ -47,17 +47,17 @@ public class CategoriaRepositoryJdbcImplement implements Repository<Categoria> {
         String sql;
         boolean actualizar = categoria.getIdCategoria() != null && categoria.getIdCategoria() > 0;
         if (actualizar) {
-            sql = "UPDATE categoria SET nombre = ?, descripcion = ?, condicion = ? WHERE idCategoria = ?";
+            sql = "UPDATE categoria SET nombre = ?, descripcion = ? WHERE idCategoria = ?";
         } else {
-            sql = "INSERT INTO categoria (nombre, descripcion, condicion) VALUES (?, ?, ?)";
+            sql = "INSERT INTO categoria (nombre, descripcion) VALUES (?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, categoria.getNombre());
             stmt.setString(2, categoria.getDescripcion());
-            stmt.setInt(3, categoria.getCondicion());
+            // stmt.setInt(3, categoria.getCondicion()); // Comentado por indicación
             if (actualizar) {
-                stmt.setLong(4, categoria.getIdCategoria());
+                stmt.setLong(3, categoria.getIdCategoria());
             }
             stmt.executeUpdate();
         }
@@ -77,7 +77,7 @@ public class CategoriaRepositoryJdbcImplement implements Repository<Categoria> {
         c.setIdCategoria(rs.getLong("idCategoria"));
         c.setNombre(rs.getString("nombre"));
         c.setDescripcion(rs.getString("descripcion"));
-        c.setCondicion(rs.getInt("condicion"));
+        // c.setCondicion(rs.getInt("condicion")); // Si tu tabla no tiene el campo, comenta esta línea
         return c;
     }
 }

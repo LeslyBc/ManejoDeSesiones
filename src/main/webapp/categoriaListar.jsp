@@ -6,38 +6,73 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
-import="java.util.*, org.lesly.ManejoDeSesiones.models.*" %>
+         import="java.util.*, org.lesly.ManejoDeSesiones.models.*" %>
 <%
     List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
     Optional<String> username = (Optional<String>) request.getAttribute("username");
 %>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Listado Categoria</title>
+    <title>Listado Categoría</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="container py-5">
 
-<h1>Listado Categoria</h1>
-<table>
+<% if (username != null && username.isPresent()) { %>
+<div style="color:blue;">
+    Hola <%= username.get() %>, bienvenido a la aplicación
+</div>
+<% } %>
+
+<div>
+    <p><a href="<%= request.getContextPath() %>/categoria/form" class="btn btn-primary">Ingresar nueva categoría</a></p>
+</div>
+
+<h1 class="mb-4">Listado Categoría</h1>
+<a href="index.html" class="btn btn-secondary mb-3">Volver al menú</a>
+<table class="table table-bordered table-striped">
     <thead>
-    <th>Id Categoria</th>
-    <th>Nombre</th>
-    <th> Descipción</th>
-    <th>Condición</th>
-    <th>Acciones</th>
+    <tr>
+        <th>Id Categoría</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Condición</th>
+        <th colspan="2">Acciones</th>
+    </tr>
     </thead>
-    <%
-        for (Categoria cat : categorias) {%>
     <tbody>
-    <td><%= cat.getIdCategoria()%></td>
-    <td><%= cat.getNombre()%></td>
-    <td><%= cat.getDescripcion()%></td>
-    <td><%= cat.getCondicion()%></td>
-    <td><a href="">Editar</a></td>
-    <td><a href="">Activar o Desactivar</a></td>
+    <%
+        if (categorias != null && !categorias.isEmpty()) {
+            for (Categoria cat : categorias) {
+    %>
+    <tr>
+        <td><%= cat.getIdCategoria() %></td>
+        <td><%= cat.getNombre() %></td>
+        <td><%= cat.getDescripcion() %></td>
+        <td><%= cat.getCondicion() %></td>
+        <td><a href="<%= request.getContextPath() %>/categoria/form?idCategoria=<%= cat.getIdCategoria() %>" class="btn btn-sm btn-warning">Editar</a></td>
+        <td>
+            <form action="<%= request.getContextPath() %>/categoria/activarDesactivar" method="post" style="display:inline;">
+                <input type="hidden" name="idCategoria" value="<%= cat.getIdCategoria() %>">
+                <button type="submit" class="btn btn-sm btn-secondary">
+                    <%= "Activo".equalsIgnoreCase(cat.getCondicion()) ? "Desactivar" : "Activar" %>
+                </button>
+            </form>
+        </td>
+    </tr>
+    <%
+        }
+    } else {
+    %>
+    <tr>
+        <td colspan="6" class="text-center">No hay categorías disponibles.</td>
+    </tr>
+    <%
+        }
+    %>
     </tbody>
-    <% } %>
-
 </table>
 
 </body>
