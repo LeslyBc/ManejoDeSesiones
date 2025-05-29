@@ -1,15 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lesly Becerra
-  Date: 28/5/2025
-  Time: 23:55
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="java.util.*, org.lesly.ManejoDeSesiones.models.*" %>
 <%
     List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
-    Optional<String> username = (Optional<String>) request.getAttribute("username");
+    String username = (String) request.getAttribute("username");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,9 +13,9 @@
 </head>
 <body class="container py-5">
 
-<% if (username != null && username.isPresent()) { %>
+<% if (username != null && !username.isEmpty()) { %>
 <div style="color:blue;">
-    Hola <%= username.get() %>, bienvenido a la aplicación
+    Hola <%= username %>, bienvenido a la aplicación
 </div>
 <% } %>
 
@@ -57,7 +50,11 @@
             <form action="<%= request.getContextPath() %>/categoria/activarDesactivar" method="post" style="display:inline;">
                 <input type="hidden" name="idCategoria" value="<%= cat.getIdCategoria() %>">
                 <button type="submit" class="btn btn-sm btn-secondary">
-                    <%= "Activo".equalsIgnoreCase(cat.getCondicion()) ? "Desactivar" : "Activar" %>
+                    <%
+                        // SOLUCIÓN: convertir la condición a String antes de comparar
+                        String condicionStr = String.valueOf(cat.getCondicion());
+                        out.print("Activo".equalsIgnoreCase(condicionStr) ? "Desactivar" : "Activar");
+                    %>
                 </button>
             </form>
         </td>
