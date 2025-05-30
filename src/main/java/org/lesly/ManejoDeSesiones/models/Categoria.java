@@ -21,6 +21,7 @@ public class Categoria {
 
     // Getters y Setters
     public Integer getIdCategoria() {
+
         return idCategoria;
     }
 

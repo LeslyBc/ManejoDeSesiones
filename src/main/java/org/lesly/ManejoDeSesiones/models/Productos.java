@@ -2,67 +2,99 @@ package org.lesly.ManejoDeSesiones.models;
 
 public class Productos { // Declara la clase Producto
 
-    // Identificador único del producto
-    private Long id;
-    // Nombre del producto
+
+    private Integer idArticulo;
+
+    private Integer idCategoria;
+
+    private String codigo;
+
     private String nombre;
-    // Tipo o categoría del producto
-    private String tipo;
-    // Precio del producto
-    private double precio;
 
-    // Constructor vacío necesario para algunos frameworks o serialización
-    public Productos() {
+    private Integer stock;
+
+    private String descripcion;
+
+    private String imagen;
+
+    private Integer condicion;
+
+    public Productos(){
+
     }
 
-    // Constructor con parámetros para crear un producto completo
-    public Productos(Long id, String nombre, String tipo, double precio) {
-        this.id = id;
+    public Productos(Integer idArticulo, Integer idCategoria, String codigo, String nombre, Integer stock, String descripcion, String imagen, Integer condicion) {
+        this.idArticulo = idArticulo;
+        this.idCategoria = idCategoria;
+        this.codigo = codigo;
         this.nombre = nombre;
-        this.tipo = tipo;
-        this.precio = precio;
+        this.stock = stock;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.condicion = condicion;
     }
 
-    //Se crean los getters y setter porque estamos encapsulando las variables de arriba
-    //Para poder tener acceso tengo que generar métodos para poder acceder a esos valores
-
-    // Método getter para obtener el ID del producto
-    public Long getId() {
-        return id;
+    public Integer getIdArticulo() {
+        return idArticulo;
     }
 
-    // Método setter para establecer el ID del producto
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdArticulo(Integer idArticulo) {
+        this.idArticulo = idArticulo;
     }
 
-    // Método getter para obtener el nombre del producto
+    public Integer getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
-    // Método setter para asignar el nombre del producto
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    // Método getter para obtener el tipo de producto
-    public String getTipo() {
-        return tipo;
+    public Integer getStock() {
+        return stock;
     }
 
-    // Método setter para asignar el tipo de producto
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    // Método getter para obtener el precio del producto
-    public double getPrecio() {
-        return precio;
+    public String getImagen() {
+        return imagen;
     }
 
-    // Método setter para asignar el precio del producto
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Integer getCondicion() {
+        return condicion;
+    }
+
+    public void setCondicion(Integer condicion) {
+        this.condicion = condicion;
     }
 }

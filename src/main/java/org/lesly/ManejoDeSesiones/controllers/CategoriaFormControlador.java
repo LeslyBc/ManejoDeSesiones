@@ -18,12 +18,12 @@ public class CategoriaFormControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //traemos la conexión a la base de datos
-        Connection conn = (Connection) req.
-                getAttribute("conn");
+        Connection conn = (Connection) req. getAttribute("conn");
+
         CategoriaService service = new CategoriaServiceJdbcImplement(conn);
+
         Integer id;
-        //Validamos que el campo ingresado sea un
-        //número
+
         try{
             //En la variable id guardamos lo que
             //estamos mapeano por el mpetodo get idCategoria
@@ -38,8 +38,7 @@ public class CategoriaFormControlador extends HttpServlet {
         if (id>0){
             //Creamos una variable de tipo optional
             //para obtener la categoria por id
-            Optional<Categoria> optionalCategoria=
-                    service.porId(id);
+            Optional<Categoria> optionalCategoria= service.porId(id);
             //Si la variable optional está presente
             //obtenemos todos los valores
             if(optionalCategoria.isPresent()){

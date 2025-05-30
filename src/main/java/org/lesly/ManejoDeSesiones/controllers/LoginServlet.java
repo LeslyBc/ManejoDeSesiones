@@ -7,57 +7,44 @@ import org.lesly.ManejoDeSesiones.services.LoginService;
 import org.lesly.ManejoDeSesiones.services.LoginServiceSessionImplement;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
 
-// Definición del Servlet que manejará las rutas /login y /login.html
 @WebServlet({"/login", "/login.html"})
 public class LoginServlet extends HttpServlet {
-    // Credenciales fijas para autenticación (en producción usar base de datos)
     final static String USERNAME = "admin";
     final static String PASSWORD = "12345";
 
-    // Método para manejar solicitudes GET (cuando se accede a la página)
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        //Implementamos el objeto de tipo sesión
         LoginService auth = new LoginServiceSessionImplement();
-        //Creamos una variable optional para obtener el nombre del usuario
-        Optional<String> usernameOptional= auth.getUserName(req);
+        Optional<String> usernameOptional = auth.getUserName(req);
 
-        // Si existe la cookie (usuario ya autenticado)
         if (usernameOptional.isPresent()) {
-            // 2) Si existe, nos mandará directamente al Main.jsp
-            getServletContext().getRequestDispatcher("/Main.jsp").forward(req, resp);
+            //Redirigir al servlet de productos, no directamente a Main.jsp
+            resp.sendRedirect("productos");
         } else {
-            // Si no hay cookie, mostrar el formulario de login (JSP)
+            //Mostrar formulario de login
             getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 
-    // Método para manejar solicitudes POST (envío del formulario de login)
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Obtener parámetros del formulario
-        String username = req.getParameter("username"); //obtenemos el user del formulario
-        String password = req.getParameter("password"); //obtenemos el password del formulario
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
 
-        // Validar credenciales
-        if (username.equals(USERNAME) && password.equals(PASSWORD)) { //Si las credenciales son iguales
-            //1) Creamos la sesión
+        if (username.equals(USERNAME) && password.equals(PASSWORD)) {
             HttpSession session = req.getSession();
-            //2) Seteo los valores de la sesión
             session.setAttribute("username", username);
 
-            // Redirigir a la página de login (mostrará mensaje de bienvenida)
-            resp.sendRedirect("login.html");
+            // ✅ Redirigir al servlet de productos después del login
+            resp.sendRedirect("productos");
         } else {
-            // Si credenciales son inválidas, enviar error HTTP 401 (No autorizado)
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Lo sentimos no tiene acceso");
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Lo sentimos, no tiene acceso");
         }
     }
 }
