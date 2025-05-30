@@ -1,32 +1,44 @@
 package org.lesly.ManejoDeSesiones.controllers;
 
+import org.lesly.ManejoDeSesiones.models.Categoria;
+import org.lesly.ManejoDeSesiones.services.CategoriaService;
+import org.lesly.ManejoDeSesiones.services.CategoriaServiceJdbcImplement;
+import org.lesly.ManejoDeSesiones.services.LoginService;
+import org.lesly.ManejoDeSesiones.services.LoginServiceSessionImplement;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.lesly.ManejoDeSesiones.services.CategoriaService;
-import org.lesly.ManejoDeSesiones.services.CategoriaServiceJdbcImplement;
-import org.lesly.ManejoDeSesiones.models.Categoria;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-@WebServlet("/categorias")
+@WebServlet ("/categoria")
 public class CategoriaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection conn = (Connection) req.getAttribute("conn");
+        //Creamos la conexión a la Base de Datos
+        Connection conn= (Connection) req.getAttribute("conn");
+
+        //Creamos el nuevo objeto de categorías
         CategoriaService service = new CategoriaServiceJdbcImplement(conn);
 
-        try {
-            List<Categoria> categorias = service.listar();
-            req.setAttribute("categorias", categorias);
-            getServletContext().getRequestDispatcher("/categoriaListar.jsp").forward(req, resp);
-        } catch (SQLException e) {
-            throw new ServletException("Error al listar categorías", e);
-        }
+        //Creamos una lista de tipo categorías llamada categorias
+        List<Categoria> categorias = service.listar();
+
+        //Para poder verse, necesitamos la autorización así que obtendremos el user name
+        LoginService auth = new LoginServiceSessionImplement();
+        Optional<String> userName= auth.getUserName(req);
+
+        //Setteamos los parámetros y son enviados a la vista
+        req.setAttribute("categorias", categorias); //Setteo de categorias clave-valor
+        req.setAttribute("username", userName);//setteo de userName
+
+        //luego redireccionamos a la vista de categoria
+        getServletContext().getRequestDispatcher("/listadoCategoria.jsp").forward(req, resp);
     }
 }

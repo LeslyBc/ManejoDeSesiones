@@ -3,9 +3,21 @@ package org.lesly.ManejoDeSesiones.repository;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface Repository<T> {
+//Esta plantilla es para el manejo todo lo de mi base de datos
+
+
+//<T> este párametro es genérico, es decir, puede tomar cualquier estado
+//Permite que la interfaz sea utilizada como se desee o cualquier objeto (entidad) que se desee manejar
+public interface Repository <T> {
+    //La lista me permite listar todos los datos de la bDD
     List<T> listar() throws SQLException;
-    T porId(Long id) throws SQLException;
+
+    //Este método me permite buscar un elemento de la BDD por su identificador
+    T porId(Integer id) throws SQLException;
+
+    //Este método me permite crear un nuevo registro a la BDD
     void guardar(T t) throws SQLException;
-    void eliminar(Long id) throws SQLException;
+
+    //Este método me permite eliminar un registro de la bdd que recibe el parÁmetro de Id
+    void eliminar(Integer id) throws SQLException;
 }

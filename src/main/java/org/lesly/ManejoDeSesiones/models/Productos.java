@@ -1,7 +1,7 @@
 package org.lesly.ManejoDeSesiones.models;
 
-// Clase que representa un producto con sus atributos básicos
-public class Productos {
+public class Productos { // Declara la clase Producto
+
     // Identificador único del producto
     private Long id;
     // Nombre del producto
@@ -22,6 +22,9 @@ public class Productos {
         this.tipo = tipo;
         this.precio = precio;
     }
+
+    //Se crean los getters y setter porque estamos encapsulando las variables de arriba
+    //Para poder tener acceso tengo que generar métodos para poder acceder a esos valores
 
     // Método getter para obtener el ID del producto
     public Long getId() {

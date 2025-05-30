@@ -21,56 +21,36 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        //implementamos el objeto de tipo sesion
+
+        //Implementamos el objeto de tipo sesión
         LoginService auth = new LoginServiceSessionImplement();
-        //creamos una variable optional para obtener el nombre de usuario
-        Optional <String>usernameOptional= auth.getUserName(req);
+        //Creamos una variable optional para obtener el nombre del usuario
+        Optional<String> usernameOptional= auth.getUserName(req);
 
         // Si existe la cookie (usuario ya autenticado)
         if (usernameOptional.isPresent()) {
-            // Configurar tipo de contenido de la respuesta, se mostara un documento que diga que ya iniciaste sesion
-            resp.setContentType("text/html;charset=UTF-8");
-
-            // Usar try-with-resources para manejo automático del PrintWriter
-            try (PrintWriter out = resp.getWriter()) {
-                // Generar HTML de respuesta dinámicamente
-                out.print("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<meta charset=\"utf-8\">");  // Especificar encoding
-                out.println("<title>hola usuario "+ usernameOptional.get() +"</title>");  // Título de la pestaña
-                out.println("</head>");
-                out.println("<body>");
-                // Mostrar mensaje personalizado con el nombre de usuario
-                out.println("<h1>Hola "+ usernameOptional.get()+" ya iniciaste sesión anteriormente!</h1>");
-                // Enlace para volver al inicio
-                out.println("<p><a href='index.html'>Volver al inicio</a></p>");
-                out.println("</body>");
-                out.println("</html>");
-            }
+            // 2) Si existe, nos mandará directamente al Main.jsp
+            getServletContext().getRequestDispatcher("/Main.jsp").forward(req, resp);
         } else {
-            // Si no hay cookie, mostrar el formulario de login (JSP), es manejo de cabeceros
+            // Si no hay cookie, mostrar el formulario de login (JSP)
             getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 
     // Método para manejar solicitudes POST (envío del formulario de login)
     @Override
-    //el metodo dopost va a procesar los parametros
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         // Obtener parámetros del formulario
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        String username = req.getParameter("username"); //obtenemos el user del formulario
+        String password = req.getParameter("password"); //obtenemos el password del formulario
 
         // Validar credenciales
-        if (username.equals(USERNAME) && password.equals(PASSWORD)) {
-            // Si son válidas, crear cookie de autenticación
-
-            //creamos la sesion
+        if (username.equals(USERNAME) && password.equals(PASSWORD)) { //Si las credenciales son iguales
+            //1) Creamos la sesión
             HttpSession session = req.getSession();
-            //seteo los valores de la sesion
+            //2) Seteo los valores de la sesión
             session.setAttribute("username", username);
 
             // Redirigir a la página de login (mostrará mensaje de bienvenida)

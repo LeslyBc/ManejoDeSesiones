@@ -1,11 +1,12 @@
 package org.lesly.ManejoDeSesiones.services;
 
+//Importacion de librerias
 import org.lesly.ManejoDeSesiones.models.Productos;
 
 import java.util.Arrays;
 import java.util.List;
-// Implementación de la interfaz ProductoService
-public class ProductosServiceImplement implements ProductoService {
+
+public class ProductosServiceImplement implements ProductoService { // Declara la clase que implementa la interfaz ProductoService
 
     @Override
     public List<Productos> listar() {
@@ -15,3 +16,8 @@ public class ProductosServiceImplement implements ProductoService {
                 new Productos(3L, "Impresora", "tinta continua", 256.25));
     }
 }
+
+
+
+
+

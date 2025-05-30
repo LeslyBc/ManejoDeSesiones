@@ -7,98 +7,90 @@
 // Paquete donde se encuentra esta clase (organización del proyecto)
 package org.lesly.ManejoDeSesiones.controllers;
 
-// Importaciones necesarias
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.lesly.ManejoDeSesiones.models.Productos;
 import org.lesly.ManejoDeSesiones.services.LoginService;
 import org.lesly.ManejoDeSesiones.services.LoginServiceSessionImplement;
 import org.lesly.ManejoDeSesiones.services.ProductoService;
 import org.lesly.ManejoDeSesiones.services.ProductosServiceImplement;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 
-// Define que esta clase es un Servlet y responde a la URL "/productos"
+//Anotaciones
 @WebServlet("/productos")
-public class ProductoServlet extends HttpServlet {
-
-    // Servicio para manejar los productos (obtener lista, etc.)
-    private final ProductoService productoService = new ProductosServiceImplement();
-
-    // Servicio para manejar la autenticación (verificar sesión)
-    private final LoginService authService = new LoginServiceSessionImplement();
-
-    // Método que maneja las solicitudes GET a /productos
+public class ProductoServlet extends HttpServlet{
+    // Método para manejar solicitudes GET (cuando se accede a la página de productos)
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Verifica si hay un usuario logueado y obtiene su nombre
-        Optional<String> username = authService.getUserName(req);
-        // Bandera que indica si hay sesión activa
-        boolean isLoggedIn = username.isPresent();
+        // 1. Obtener instancia del servicio de productos
+        ProductoService service = new ProductosServiceImplement()   ;
 
-        // Configura el tipo de contenido de la respuesta como HTML con UTF-8
+        // 2. Obtener lista de productos desde el servicio
+        List<Productos> productos = service.listar();
+
+        LoginService auth = new LoginServiceSessionImplement();
+        Optional<String> usernameOptional= auth.getUserName(req);
+        boolean logeo = usernameOptional.isPresent();
+        // 3. Configurar el tipo de contenido de la respuesta como HTML con UTF-8
         resp.setContentType("text/html;charset=UTF-8");
 
-        // Try-with-resources para manejar el PrintWriter (se cierra automáticamente)
-        try (PrintWriter out = resp.getWriter()) {
-            // Comienza a generar el documento HTML
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset='UTF-8'>");  // Encoding del documento
-            out.println("<title>Productos</title>");  // Título de la pestaña
+        // 4. Obtener objeto PrintWriter para escribir la respuesta HTML
+        PrintWriter out = resp.getWriter();
 
-            // Enlace al archivo CSS externo (ubicado en webapp/estilos.css)
-            out.println("<link rel='stylesheet' href='estilos.css'>");
-            out.println("</head>");
+        // 5. Comenzar a generar la estructura HTML
+        out.print("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<meta charset=\"utf-8\">");  // Especificar encoding
+        out.println("<link rel=\"stylesheet\" href=\"css/estilos.css\">");
+        out.println("<title>Lista de Productos</title>");  // Título de la pestaña
+        out.println("</head>");
+        out.println("<body>");
 
-            // Cuerpo del documento HTML
-            out.println("<body>");
-
-            // Mensaje condicional según si está logueado o no
-            if (isLoggedIn) {
-                // Saludo personalizado al usuario logueado
-                out.println("<h2 class='mensaje bienvenida'>Hola " + username.get() + "</h2>");
-            } else {
-                // Mensaje invitando a iniciar sesión (con enlace)
-                out.println("<div class='login-message'>"
-                        + "<a href='login.html'>Inicie sesión</a> logueate para ver precios"
-                        + "</div>");
-            }
-
-            // Comienza la tabla de productos
-            out.println("<table class='product-table'>");
-
-            // Encabezados de la tabla
-            out.println("<tr><th>ID</th><th>Nombre</th><th>Categoría</th>");
-            // Encabezado de precio solo visible para usuarios logueados
-            if (isLoggedIn) out.println("<th>Precio</th>");
-            out.println("</tr>");
-
-            // Recorre todos los productos y genera una fila por cada uno
-            productoService.listar().forEach(p -> {
-                out.println("<tr>");
-                out.println("<td>" + p.getId() + "</td>");  // Columna ID
-                out.println("<td>" + p.getNombre() + "</td>");  // Columna Nombre
-                out.println("<td>" + p.getTipo() + "</td>");  // Columna Categoría
-                // Columna Precio solo visible para usuarios logueados
-                if (isLoggedIn) out.println("<td class='price'>$" + p.getPrecio() + "</td>");
-                out.println("</tr>");
-            });
-
-            // Cierra la tabla
-            out.println("</table>");
-
-            // Enlace para volver a la página de inicio
-            out.println("<p class='return-link'><a href='index.html'>Volver a pagina inicio</a></p>");
-
-            // Cierra el cuerpo y el HTML
-            out.println("</body>");
-            out.println("</html>");
+        // 6. Título principal de la página
+        out.println("<h1>Lista de productos</h1>");
+        if(logeo){
+            out.println("<h3>Hola querido " + usernameOptional.get() + "</h3>");
         }
+        // 7. Crear tabla para mostrar los productos
+        out.println("<table border='1'>");  // Tabla con borde visible
+
+        // 8. Encabezados de la tabla
+        out.println("<tr>");  // Fila de encabezado
+        out.println("<th>ID PRODUCTO</th>");
+        out.println("<th>NOMBRE</th>");
+        out.println("<th>CATEGORIA</th>");
+        if(logeo){
+            out.println("<th>PRECIO</th>");
+        }
+        out.println("</tr>");
+
+        // 9. Iterar sobre la lista de productos y generar filas de la tabla
+        productos.forEach(p -> {
+            out.println("<tr>");  // Nueva fila por cada producto
+            out.println("<td>" + p.getId() + "</td>");  // Celda con ID
+            out.println("<td>" + p.getNombre() + "</td>");  // Celda con nombre
+            out.println("<td>" + p.getTipo() + "</td>");  // Celda con categoría/tipo
+            if(logeo){
+                out.println("<td>" + p.getPrecio() + "</td>");
+            }
+            out.println("</tr>");
+        });
+
+        // 10. Cerrar tabla y estructura HTML
+        out.println("</table>");
+        out.println("</body>");
+        out.println("</html>");
     }
+
 }

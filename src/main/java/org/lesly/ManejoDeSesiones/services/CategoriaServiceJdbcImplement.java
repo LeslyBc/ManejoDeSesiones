@@ -1,5 +1,6 @@
 package org.lesly.ManejoDeSesiones.services;
 
+import com.google.protobuf.ServiceException;
 import org.lesly.ManejoDeSesiones.models.Categoria;
 import org.lesly.ManejoDeSesiones.repository.CategoriaRepositoryJdbcImplement;
 
@@ -10,37 +11,39 @@ import java.util.Optional;
 
 public class CategoriaServiceJdbcImplement implements CategoriaService {
 
+    //Creamos una variable de tipo CategoríaRepositoryJdbcImplement
     private CategoriaRepositoryJdbcImplement repositoryJdbc;
 
-    public CategoriaServiceJdbcImplement(Connection conn){
+    //Creamos un constructor donde recibimos la conexión
+    public CategoriaServiceJdbcImplement(Connection conn) {
+        //instaciamos el repostitoryJdvc a un objeto que llame todos los métodos que tiene conn
         this.repositoryJdbc = new CategoriaRepositoryJdbcImplement(conn);
     }
 
     @Override
     public List<Categoria> listar() {
-        try {
+        try{
             return repositoryJdbc.listar();
-        } catch(SQLException throwables) {
+        }catch(SQLException throwables) {
             throw new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
         }
     }
 
     @Override
-    public Optional<Categoria> porId(Long id) {
-        try {
+    public Optional<Categoria> porId(Integer id) {
+        try{
             return Optional.ofNullable(repositoryJdbc.porId(id));
-        } catch(SQLException throwables) {
+        }catch(SQLException throwables) {
             throw new ServiceJdbcException(throwables.getMessage(), throwables.getCause());
         }
     }
 
     @Override
-    public void guardar(Categoria categoria) throws SQLException {
-        repositoryJdbc.guardar(categoria);
-    }
-
-    @Override
-    public void eliminar(Long id) throws SQLException {
-        repositoryJdbc.eliminar(id);
+    public void guardar (Categoria categoria){
+        try {
+            repositoryJdbc.guardar(categoria);
+        }catch ( SQLException throwables){
+            throw new ServiceJdbcException(throwables.getMessage(),throwables.getCause());
+        }
     }
 }

@@ -1,32 +1,25 @@
-
 package org.lesly.ManejoDeSesiones.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+//Patrón creacional Singleton
 public class Conexion {
-    private static final String URL = "jdbc:mysql://localhost:3306/mysql?serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    //Para conectar la BDD
+    //1) Inicializo 3 variables globales
+    //Creo el url para la conexión con la bdd
+    //jdbc:bdd://localhost:3306/nombreBDD?zonaHoraria
+    private static String url = "jdbc:mysql://localhost:3306/trabajoenclase?serverTimeZone=UTC";
+    //colocamos el usuario
+    private static String username = "root";
+    //Contraseña del usuario, si no hay dejar las comillas
+    private static String password = "";
 
-    static {
-        try {
-            // Registrar el driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Error al cargar el driver MySQL: " + e.getMessage(), e);
-        }
-    }
+
+    //2) Implementamos un método para realizar la conexión
 
     public static Connection getConnection() throws SQLException {
-        try {
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos:");
-            System.err.println("URL: " + URL);
-            System.err.println("Error: " + e.getMessage());
-            throw e;
-        }
+        return DriverManager.getConnection(url, username, password);
     }
 }

@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
+User: Lesly Becerra
+Fecha: 15/05/2025
+Descripción: Desarrollo de HTML en un archivo index para poder visualizar
+el apartado de la web con rutas específicas para visualizar los productos como el login-->
+
+<!DOCTYPE html> <!-- Define el tipo de documento -->
+<html lang="en"> <!-- Inicio del documento HTML con idioma inglés -->
 <head>
-    <meta charset="UTF-8">
-    <title>Manejo de Sesiones</title>
-    <!-- Tus fuentes personalizadas -->
-    <link rel="stylesheet" href="estilos.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ancizar+Serif:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"> <!-- Codificación de caracteres -->
+    <title>Logeo</title> <!-- Título de la página -->
+    <link rel="stylesheet" href="css/index.css">
 </head>
-<body class="container py-5">
-<h1 class="text-center mb-4">Manejo de Sesiones</h1>
-<ul class="menu list-group">
-    <li class="list-group-item">
-        <a href="/ManejoDeSesiones/productos" class="btn btn-outline-primary w-100">Mostrar productos</a>
-    </li>
-    <li class="list-group-item">
-        <a href="/ManejoDeSesiones/login.html" class="btn btn-outline-success w-100">Login</a>
-    </li>
-    <li class="list-group-item">
-        <a href="/ManejoDeSesiones/logout" class="btn btn-outline-danger w-100">Cerrar Sesión</a>
-    </li>
-    <li class="list-group-item">
-        <a href="/ManejoDeSesiones/categorias" class="btn btn-outline-info w-100">Categorías</a>
-    </li>
+<body>
+<h1>Manejo de Sesiones</h1> <!-- Encabezado principal -->
+<ul>
+    <li><a href="/ManejoDeSesiones/productos">Mostrar Productos</a></li> <!-- Enlace para mostrar productos -->
+    <li><a href="/ManejoDeSesiones/login.html">Login</a></li> <!-- Enlace para ir al login -->
+    <li><a href="/ManejoDeSesiones/categoria">categorias</a></li>
+    <li><a href="/ManejoDeSesiones/logout">Cerrar Sesión</a></li>
 </ul>
 </body>
 </html>
